@@ -11,7 +11,7 @@ import flask_login
 from project.models.User import User
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "login"
+login_manager.login_view = 'login'
 
 
 @login_manager.user_loader

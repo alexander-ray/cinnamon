@@ -1,0 +1,12 @@
+{% from "_formhelpers.html" import render_field %}
+<form method=post>
+  <dl>
+      {{ form.csrf_token }}
+      {{ render_field(form.amount) }}
+      {{ render_field(form.account) }}
+      {{ render_field(form.spending_type) }}
+      {{ render_field(form.date) }}
+      {{ render_field(form.description) }}
+  </dl>
+  <p><input type=submit value='Log Spending'>
+</form>

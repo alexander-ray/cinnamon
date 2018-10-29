@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, IntegerField
+from wtforms import StringField, PasswordField, IntegerField, SelectField, DateField
 from wtforms.validators import Length, InputRequired, NumberRange
 
 
@@ -38,7 +38,29 @@ class BaseAddressForm(Form):
 class SignupForm(BaseUserForm, BaseAddressForm):
     income = IntegerField(
         'Income',
-        validators=[NumberRange(min=0, max=100000000)]
+        validators=[InputRequired(), NumberRange(min=0, max=100000000)]
     )
 
 
+class LogSpendingForm(Form):
+    amount = IntegerField(
+        'Amount',
+        validators=[InputRequired(), NumberRange(min=0, max=100000000)]
+    )
+    account = StringField(
+        'Account',
+        validators=[InputRequired()]
+    )
+    date = DateField(
+        'Date of Spending',
+        validators=[InputRequired()]
+    )
+    description = StringField(
+        'Description',
+        validators=[Length(max=200)]
+    )
+    spending_type = SelectField(
+        'Spending Type',
+        choices=[('Dining', 'Dining'), ('Retail', 'Retail')],
+        default=[('Dining', 'Dining')]
+    )

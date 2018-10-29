@@ -14,6 +14,7 @@ class LoginController(View):
         user = User('tmp', 'tmp', None)
         if request.method == 'POST' and form.validate_on_submit():
             login_user(user)
+            flash('Hell user')
             return redirect('home')
         return render_template('login.html', form=form)
 

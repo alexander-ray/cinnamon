@@ -1,3 +1,6 @@
+from .SpendingHistory import SpendingHistory
+
+
 class User:
     def __init__(self, username, income, info):
         self.id = 22
@@ -5,8 +8,9 @@ class User:
         self.income = income
         self.information = info
         self.accounts = {}
-        self.spending_history = None
+        self.spending_history = SpendingHistory()
 
+    # https://github.com/realpython/flask-registration/blob/master/project/models.py
     def is_authenticated(self):
         return True
 
