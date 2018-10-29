@@ -1,8 +1,8 @@
 from project import app
 from project.controllers.forms import BaseUserForm
 from project.models.User import User
-from flask import Flask, render_template, redirect, url_for, request, flash
-from flask_login import login_user, logout_user, login_required, current_user
+from flask import render_template, redirect, request
+from flask_login import login_user
 from flask.views import View
 
 
@@ -14,7 +14,6 @@ class LoginController(View):
         user = User('tmp', 'tmp', None)
         if request.method == 'POST' and form.validate_on_submit():
             login_user(user)
-            flash('Hell user')
             return redirect('home')
         return render_template('login.html', form=form)
 

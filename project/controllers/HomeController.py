@@ -1,8 +1,6 @@
 from project import app
-from project.controllers.forms import SignupForm, BaseUserForm
-from project.models.User import User
-from flask import Flask, render_template, redirect, url_for, request, flash
-from flask_login import login_user, logout_user, login_required, current_user
+from flask import render_template
+from flask_login import login_required, current_user
 from flask.views import View
 
 

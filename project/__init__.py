@@ -21,5 +21,9 @@ user = User('billy', 'bob', None)
 def load_user(user_id):
     return user
 
+# https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xi-facelift
+from flask_bootstrap import Bootstrap
+bootstrap = Bootstrap(app)
+
 
 from project.controllers import *

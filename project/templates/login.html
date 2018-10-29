@@ -1,10 +1,15 @@
-<!--http://flask.pocoo.org/docs/1.0/patterns/wtforms/-->
-{% from "_formhelpers.html" import render_field %}
-<form method=post>
-  <dl>
-      {{ form.csrf_token }}
-      {{ render_field(form.username) }}
-      {{ render_field(form.password) }}
-  </dl>
-  <p><input type=submit value=Login>
-</form>
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <!-- https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xi-facelift -->
+    <h1>Login</h1>
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-4">
+                {{ wtf.quick_form(form) }}
+                <input type=submit value='Login'>
+            </div>
+        </div>
+    </form>
+{% endblock %}
