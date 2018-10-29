@@ -1,5 +1,5 @@
 from project import app
-from project.controllers.forms import SignupForm, LoginForm
+from project.controllers.forms import SignupForm, BaseUserForm
 from project.models.User import User
 from flask import Flask, render_template, redirect, url_for, request, flash
 
@@ -21,7 +21,7 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm(request.form)
+    form = BaseUserForm(request.form)
     if request.method == 'POST' and form.validate_on_submit():
         return redirect('home')
     return render_template('login.html', form=form)
