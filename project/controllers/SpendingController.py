@@ -24,10 +24,10 @@ class SpendingController(View):
                                                                        date,
                                                                        description,
                                                                        instance_type)
-            print(spending_instance)
             current_user.spending_history.add_spending_instance(spending_instance)
             return redirect('home')
-        return render_template('log_spending.html', form=form)
+        return render_template('log_spending.html',
+                               form=form)
 
 
 app.add_url_rule('/spend', view_func=SpendingController.as_view('spend'))

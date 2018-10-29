@@ -14,9 +14,12 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 
+# TODO
+# Work with SQLAlchemy to get actual persistence going
+user = User('billy', 'bob', None)
 @login_manager.user_loader
 def load_user(user_id):
-    return User('billy', 'bob', None)
+    return user
 
 
 from project.controllers import *
