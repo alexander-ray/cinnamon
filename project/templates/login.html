@@ -1,0 +1,9 @@
+<!--http://flask.pocoo.org/docs/1.0/patterns/wtforms/-->
+<form method=post>
+  <dl>
+      {{ form.csrf_token }}
+      {{ form.username }}
+      {{ form.password }}
+  </dl>
+  <p><input type=submit value=Login>
+</form>
