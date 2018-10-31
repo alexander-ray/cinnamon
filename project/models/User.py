@@ -1,13 +1,22 @@
+from project import Base
 from .SpendingHistory import SpendingHistory
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, unique=True, nullable=False, primary_key=True)
+    username = Column(String(80), unique=True, nullable=False)
+    password = Column(String(80), unique=True, nullable=False)
+    income = Column(Integer, nullable=False)
+    information = relationship('UserInformation', uselist=False)
+    accounts = relationship('Account')
+    spending_history = relationship('SpendingHistory', uselist=False)
 
-class User:
-    # TODO
-    # Make report generator
-    def __init__(self, username, income, info):
+    def __init__(self, username, password, info):
         self.id = 22
         self.username = username
-        self.income = income
+        self.password = password
         self.information = info
         self.accounts = []
         self.spending_history = SpendingHistory()
