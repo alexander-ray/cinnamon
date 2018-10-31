@@ -13,6 +13,8 @@ class SpendingController(View):
 
     def dispatch_request(self):
         form = LogSpendingForm(request.form)
+        account_names = [(name, name) for name in current_user.get_account_names()]
+        form.account.choices = account_names
         if request.method == 'POST' and form.validate_on_submit():
             amount = int(request.form['amount'])
             account = request.form['account']
@@ -24,6 +26,7 @@ class SpendingController(View):
                                                                        date,
                                                                        description,
                                                                        instance_type)
+            current_user.get_account(account).withdraw(amount)
             current_user.spending_history.add_spending_instance(spending_instance)
             return redirect('home')
         return render_template('log_spending.html',

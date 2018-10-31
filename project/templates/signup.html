@@ -1,15 +1,53 @@
-{% extends "base.html" %}
+<!--https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xi-facelift-->
 {% import 'bootstrap/wtf.html' as wtf %}
+{% extends 'bootstrap/base.html' %}
 
-{% block app_content %}
-    <!-- https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xi-facelift -->
-    <h1>Signup</h1>
-    <form method="POST">
-        <div class="row">
-            <div class="col-md-4">
-                {{ wtf.quick_form(form) }}
-                <input type=submit value='Signup'>
-            </div>
+{% block title %}
+    Cinnamon - Money Management in a Spicier Package
+{% endblock %}
+
+{% block navbar %}
+    <!--https://bootstrapdocs.com/v3.3.5/docs/components/#navbar-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{{ url_for('home') }}">Cinnamon - Money Management in a Spicier Package</a>
         </div>
-    </form>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+{% endblock %}
+
+<!-- macro for getting flashed messages from -->
+<!-- https://github.com/miguelgrinberg/microblog/blob/v0.11/app/templates/base.html -->
+{% block content %}
+    <div class="container">
+        <!-- Cycle through flashed messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block app_content %}
+            <!-- https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xi-facelift -->
+            <h1>Signup</h1>
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ wtf.quick_form(form) }}
+                        <input type=submit value='Signup'>
+                    </div>
+                </div>
+            </form>
+        {% endblock %}
+    </div>
 {% endblock %}

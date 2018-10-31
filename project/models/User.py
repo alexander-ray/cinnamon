@@ -7,10 +7,19 @@ class User:
         self.username = username
         self.income = income
         self.information = info
-        self.accounts = {}
+        self.accounts = []
         self.spending_history = SpendingHistory()
 
-    # https://github.com/realpython/flask-registration/blob/master/project/models.py
+    def get_account(self, name):
+        for account in self.accounts:
+            if account.name == name:
+                return account
+        return None
+
+    def get_account_names(self):
+        return [account.name for account in self.accounts]
+
+    # Needed for flask-login
     def is_authenticated(self):
         return True
 
