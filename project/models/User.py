@@ -2,6 +2,8 @@ from .SpendingHistory import SpendingHistory
 
 
 class User:
+    # TODO
+    # Make report generator
     def __init__(self, username, income, info):
         self.id = 22
         self.username = username

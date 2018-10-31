@@ -25,5 +25,4 @@ def load_user(user_id):
 from flask_bootstrap import Bootstrap
 bootstrap = Bootstrap(app)
 
-
 from project.controllers import *
