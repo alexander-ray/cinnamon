@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block app_content %}
+    <html>
+        <!--TODO-->
+        <!--Spruce up printouts, layout-->
+        <h1>
+            Spending
+        </h1>
+        <table>
+            {% for instance in instances %}
+            <tr>
+                <td>{{ instance.__str__() }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </html>
+{% endblock %}
+
