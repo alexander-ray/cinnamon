@@ -1,12 +1,13 @@
-from project import Base
-from sqlalchemy import Column, Integer, String, ForeignKey
+from project import db
 
-class Account(Base):
+
+class Account(db.Model):
     __tablename__ = 'account'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(80), nullable=False)
-    sum_withdrawls = Column(Integer, nullable=False, default=0)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    sum_withdrawls = db.Column(db.Integer, nullable=False, default=0)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
     def __init__(self, name):
         self.name = name
         self.sum_withdrawls = 0

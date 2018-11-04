@@ -1,17 +1,15 @@
-from project import Base
+from project import db
 from .SpendingHistory import SpendingHistory
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
 
-class User(Base):
-    __tablename__ = 'user'
-    id = Column(Integer, unique=True, nullable=False, primary_key=True)
-    username = Column(String(80), unique=True, nullable=False)
-    password = Column(String(80), unique=True, nullable=False)
-    income = Column(Integer, nullable=False)
-    information = relationship('UserInformation', uselist=False)
-    accounts = relationship('Account')
-    spending_history = relationship('SpendingHistory', uselist=False)
+class User(db.Model):
+    #__tablename__ = 'user'
+    id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=True, nullable=False)
+    income = db.Column(db.Integer, nullable=True)
+    information = db.relationship('UserInformation', uselist=False)
+    accounts = db.relationship('Account')
+    spending_history = db.relationship('SpendingHistory', uselist=False, enable_typechecks=True)
 
     def __init__(self, username, password, info):
         self.id = 22

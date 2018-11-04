@@ -4,6 +4,7 @@ from project.models.Account import Account
 from flask import Flask, render_template, redirect, request
 from flask_login import login_required, current_user
 from flask.views import View
+from project import db
 
 
 class AddAccountController(View):
@@ -16,6 +17,7 @@ class AddAccountController(View):
             account_name = request.form['account']
             account = Account(account_name)
             current_user.accounts.append(account)
+            db.session.commit()
             return redirect('home')
         return render_template('add_account.html',
                                form=form)

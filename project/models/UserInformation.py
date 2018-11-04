@@ -1,13 +1,11 @@
-from project import Base
-from sqlalchemy import Column, Integer, ForeignKey
-from sqlalchemy.orm import relationship
+from project import db
 
-class UserInformation(Base):
+class UserInformation(db.Model):
     __tablename__ = 'user_information'
-    id = Column(Integer, primary_key=True)
-    income = Column(Integer, nullable=False)
-    address = relationship('Address', uselist=False)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    income = db.Column(db.Integer, nullable=False)
+    address = db.relationship('Address', uselist=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, income, address):
         self.income = income

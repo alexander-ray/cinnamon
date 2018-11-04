@@ -1,13 +1,12 @@
-from project import Base
-from sqlalchemy import Column, Integer, ForeignKey
-from sqlalchemy.orm import relationship
+from project import db
 
 
-class SpendingHistory(Base):
+class SpendingHistory(db.Model):
     __tablename__ = 'spending_history'
-    id = Column(Integer, primary_key=True)
-    spending_instances = relationship('SpendingInstance')
-    user_id = Column(Integer, ForeignKey('user.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    spending_instances = db.relationship('SpendingInstance')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
     def get_spending_instances(self):
         return self.spending_instances
 

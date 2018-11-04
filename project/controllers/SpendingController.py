@@ -5,7 +5,7 @@ from project.models.SpendingInstanceFactory import SpendingInstanceFactory
 from flask import Flask, render_template, redirect, request
 from flask_login import login_required, current_user
 from flask.views import View
-
+from project import db
 
 class SpendingController(View):
     methods = ['GET', 'POST']
@@ -22,12 +22,13 @@ class SpendingController(View):
             description = request.form['description']
             instance_type = request.form['spending_type']
             spending_instance = SpendingInstanceFactory.factory_method(amount,
-                                                                       account,
+                                                                       current_user.get_account(account),
                                                                        date,
                                                                        description,
                                                                        instance_type)
             current_user.get_account(account).withdraw(amount)
             current_user.spending_history.add_spending_instance(spending_instance)
+            db.session.commit()
             return redirect('home')
         return render_template('log_spending.html',
                                form=form)
