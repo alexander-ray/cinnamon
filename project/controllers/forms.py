@@ -1,13 +1,12 @@
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, IntegerField, SelectField, DateField
 from wtforms.validators import Length, InputRequired, NumberRange
-from flask_login import current_user
 
 
 class BaseUserForm(Form):
     username = StringField(
         'Username',
-        validators=[InputRequired(), Length(min=6, max=255)]
+        validators=[InputRequired(), Length(max=255)]
     )
     password = PasswordField(
         'Password',
@@ -51,7 +50,7 @@ class LogSpendingForm(Form):
     account = SelectField(
         'Account',
         coerce=str,
-        validators=[InputRequired(message='Please add account to continue')]
+        validators=[InputRequired()]
     )
     date = DateField(
         'Date of Spending',
@@ -63,13 +62,13 @@ class LogSpendingForm(Form):
     )
     spending_type = SelectField(
         'Spending Type',
-        choices=[('Dining', 'Dining'), ('Retail', 'Retail')],
-        default=[('Dining', 'Dining')]
+        coerce=str,
+        validators=[InputRequired()]
     )
 
 
 class AddAccountForm(Form):
     account = StringField(
         'Account',
-        validators=[InputRequired(), Length(min=6, max=255)]
+        validators=[InputRequired(), Length(max=255)]
     )

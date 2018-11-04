@@ -1,17 +1,30 @@
 {% extends 'base.html' %}
 {% block app_content %}
     <html>
-        <!--TODO-->
-        <!--Spruce up printouts, layout-->
         <h1>
-            Spending
+            Spending History
         </h1>
-        <table>
-            {% for instance in instances %}
-            <tr>
-                <td>{{ instance.__str__() }}</td>
-            </tr>
-            {% endfor %}
+        <!--https://getbootstrap.com/docs/4.0/content/tables/-->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Spending Type</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Account</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for instance in instances %}
+                <tr>
+                    <td>{{ instance.__str__() }}</td>
+                    <!--https://stackoverflow.com/questions/11260155/-->
+                    <td>{{ '$%0.2f' % instance.amount | float }}</td>
+                    <td>{{ instance.account.name }}</td>
+                    <td>{{ instance.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </html>
 {% endblock %}

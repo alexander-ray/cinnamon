@@ -1,12 +1,14 @@
 from project import db
 from .SpendingHistory import SpendingHistory
 
+
 class User(db.Model):
-    #__tablename__ = 'user'
+    __tablename__ = 'user'
+
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
-    income = db.Column(db.Integer, nullable=True)
+    income = db.Column(db.Integer)
     information = db.relationship('UserInformation', uselist=False)
     accounts = db.relationship('Account')
     spending_history = db.relationship('SpendingHistory', uselist=False, enable_typechecks=True)

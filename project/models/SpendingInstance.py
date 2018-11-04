@@ -1,14 +1,17 @@
-from abc import ABC
 from project import db
+from project.models.SpendingType import SpendingType
 
 
 class SpendingInstance(db.Model):
+    # Only superclass gets tablename
     __tablename__ = 'spending_instance'
+
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer, nullable=False)
     account = db.relationship('Account', uselist=False)
     date = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(80), nullable=False)
+    # Field for distinguishing between subclasses
     type = db.Column(db.String(80))
     spending_history_id = db.Column(db.Integer, db.ForeignKey('spending_history.id'))
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'))
@@ -19,6 +22,8 @@ class SpendingInstance(db.Model):
         self.date = date
         self.description = description
 
+    # Setup for single table polymorphic stuff in sqlalchemy
+    # https://docs.sqlalchemy.org/en/latest/orm/inheritance.html
     __mapper_args__ = {
         'polymorphic_identity': 'spending_instance',
         'polymorphic_on': type
@@ -31,9 +36,10 @@ class DiningSpendingInstance(SpendingInstance):
                                                      account,
                                                      date,
                                                      description)
+        self.amount += self.amount * 0.2
 
     def __str__(self):
-        return 'Ate for ' + str(self.amount)
+        return SpendingType.DINING.value
 
     __mapper_args__ = {
         'polymorphic_identity': 'dining_spending_instance',
@@ -48,7 +54,7 @@ class RetailSpendingInstance(SpendingInstance):
                                                      description)
 
     def __str__(self):
-        return 'Shopped for ' + str(self.amount)
+        return SpendingType.RETAIL.value
 
     __mapper_args__ = {
         'polymorphic_identity': 'retail_spending_instance',

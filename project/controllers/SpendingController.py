@@ -1,8 +1,8 @@
 from project import app
 from project.controllers.forms import LogSpendingForm
-from project.models.User import User
 from project.models.SpendingInstanceFactory import SpendingInstanceFactory
-from flask import Flask, render_template, redirect, request
+from project.models.SpendingType import SpendingType
+from flask import render_template, redirect, request
 from flask_login import login_required, current_user
 from flask.views import View
 from project import db
@@ -12,11 +12,17 @@ class SpendingController(View):
     decorators = [login_required]
 
     def dispatch_request(self):
+        # Create basic logging form
         form = LogSpendingForm(request.form)
-        account_names = [(name, name) for name in current_user.get_account_names()]
-        form.account.choices = account_names
+
+        # Add account choices to form
+        form.account.choices = [(name, name) for name in current_user.get_account_names()]
+
+        # Add spending type choices to form
+        form.spending_type.choices = [(name.value, name.value) for name in SpendingType]
+
         if request.method == 'POST' and form.validate_on_submit():
-            amount = int(request.form['amount'])
+            amount = float(request.form['amount'])
             account = request.form['account']
             date = request.form['date']
             description = request.form['description']
