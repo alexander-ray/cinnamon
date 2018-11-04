@@ -5,6 +5,6 @@ from .SpendingType import SpendingType
 class SpendingInstanceFactory:
     @staticmethod
     def factory_method(amount, account, date, description, instance_type):
-        if instance_type == SpendingType.DINING:
+        if instance_type == SpendingType.DINING.value:
             return DiningSpendingInstance(amount, account, date, description)
         return RetailSpendingInstance(amount, account, date, description)

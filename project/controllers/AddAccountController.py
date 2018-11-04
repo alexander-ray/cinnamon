@@ -1,7 +1,7 @@
 from project import app
 from project.controllers.forms import AddAccountForm
 from project.models.Account import Account
-from flask import Flask, render_template, redirect, request
+from flask import render_template, redirect, request
 from flask_login import login_required, current_user
 from flask.views import View
 from project import db

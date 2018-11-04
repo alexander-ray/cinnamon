@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, IntegerField, SelectField, DateF
 from wtforms.validators import Length, InputRequired, NumberRange
 from datetime import datetime
 
+
 class BaseUserForm(Form):
     username = StringField(
         'Username',
@@ -36,6 +37,13 @@ class BaseAddressForm(Form):
 # https://github.com/realpython/flask-registration/
 # http://flask.pocoo.org/docs/1.0/patterns/wtforms/
 class SignupForm(BaseUserForm, BaseAddressForm):
+    income = IntegerField(
+        'Income',
+        validators=[InputRequired(), NumberRange(min=0, max=100000000)]
+    )
+
+
+class SettingsForm(BaseAddressForm):
     income = IntegerField(
         'Income',
         validators=[InputRequired(), NumberRange(min=0, max=100000000)]

@@ -1,5 +1,6 @@
 from project import db
 
+
 class UserInformation(db.Model):
     __tablename__ = 'user_information'
     id = db.Column(db.Integer, primary_key=True)

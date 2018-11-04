@@ -1,7 +1,7 @@
 from project import db
 from project.models.SpendingType import SpendingType
 import datetime
-import pytz
+
 
 class SpendingInstance(db.Model):
     # Only superclass gets tablename
@@ -37,7 +37,7 @@ class DiningSpendingInstance(SpendingInstance):
                                                      account,
                                                      date,
                                                      description)
-        self.amount += self.amount * 0.2
+        self.amount += self.amount * 0.15
 
     def __str__(self):
         return SpendingType.DINING.value
