@@ -8,7 +8,10 @@ class HomeController(View):
     decorators = [login_required]
 
     def dispatch_request(self):
-        return render_template('home.html', instances=current_user.spending_history.get_spending_instances())
+        # Sort in reverse chronological order
+        instances = list(sorted(current_user.spending_history.get_spending_instances(),
+                                key=lambda x: x.date, reverse=True))
+        return render_template('home.html', instances=instances)
 
 
 app.add_url_rule('/home', view_func=HomeController.as_view('home'))

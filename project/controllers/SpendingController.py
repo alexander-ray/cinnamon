@@ -6,6 +6,8 @@ from flask import render_template, redirect, request
 from flask_login import login_required, current_user
 from flask.views import View
 from project import db
+from datetime import datetime
+
 
 class SpendingController(View):
     methods = ['GET', 'POST']
@@ -20,11 +22,11 @@ class SpendingController(View):
 
         # Add spending type choices to form
         form.spending_type.choices = [(name.value, name.value) for name in SpendingType]
-
         if request.method == 'POST' and form.validate_on_submit():
             amount = float(request.form['amount'])
             account = request.form['account']
-            date = request.form['date']
+            # Convert to date (not datetime)
+            date = datetime.strptime(request.form['date'], '%Y-%m-%d').date()
             description = request.form['description']
             instance_type = request.form['spending_type']
             spending_instance = SpendingInstanceFactory.factory_method(amount,

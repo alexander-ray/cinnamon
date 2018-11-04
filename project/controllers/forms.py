@@ -1,7 +1,7 @@
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, IntegerField, SelectField, DateField
 from wtforms.validators import Length, InputRequired, NumberRange
-
+from datetime import datetime
 
 class BaseUserForm(Form):
     username = StringField(
@@ -54,6 +54,8 @@ class LogSpendingForm(Form):
     )
     date = DateField(
         'Date of Spending',
+        format='%Y-%m-%d',
+        default=datetime.now().date(),
         validators=[InputRequired()]
     )
     description = StringField(

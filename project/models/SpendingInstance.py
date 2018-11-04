@@ -1,6 +1,7 @@
 from project import db
 from project.models.SpendingType import SpendingType
-
+import datetime
+import pytz
 
 class SpendingInstance(db.Model):
     # Only superclass gets tablename
@@ -9,8 +10,8 @@ class SpendingInstance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer, nullable=False)
     account = db.relationship('Account', uselist=False)
-    date = db.Column(db.String(80), nullable=False)
-    description = db.Column(db.String(80), nullable=False)
+    date = db.Column(db.Date, default=datetime.datetime.now())
+    description = db.Column(db.String(80))
     # Field for distinguishing between subclasses
     type = db.Column(db.String(80))
     spending_history_id = db.Column(db.Integer, db.ForeignKey('spending_history.id'))
