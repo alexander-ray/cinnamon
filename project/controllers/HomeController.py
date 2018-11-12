@@ -8,9 +8,7 @@ class HomeController(View):
     decorators = [login_required]
 
     def dispatch_request(self):
-        # Sort in reverse chronological order
-        instances = list(sorted(current_user.spending_history.get_spending_instances(),
-                                key=lambda x: x.date, reverse=True))
+        instances = current_user.spending_history.get_spending_instances()
         return render_template('home.html', instances=instances)
 
 

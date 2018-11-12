@@ -82,3 +82,8 @@ class AddAccountForm(Form):
         'Account',
         validators=[InputRequired(), Length(max=255)]
     )
+
+
+class CreateReportForm(Form):
+    pass
+

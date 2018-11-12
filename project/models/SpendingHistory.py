@@ -8,7 +8,8 @@ class SpendingHistory(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def get_spending_instances(self):
-        return self.spending_instances
+        # Sort in reverse chronological order
+        return list(sorted(self.spending_instances, key=lambda x: x.date, reverse=True))
 
     def add_spending_instance(self, instance):
         self.spending_instances.append(instance)

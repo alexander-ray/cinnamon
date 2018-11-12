@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <!-- https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xi-facelift -->
+    <h1>Create Report</h1>
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-4">
+                {{ wtf.quick_form(form) }}
+                <input type=submit value='Generate'>
+            </div>
+        </div>
+    </form>
+{% endblock %}
