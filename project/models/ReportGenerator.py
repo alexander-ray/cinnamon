@@ -49,6 +49,7 @@ class CSVReportGenerator(ReportGenerator):
         'polymorphic_identity': 'csv_report_generator',
     }
 
+
 class JSONReportGenerator(ReportGenerator):
     def __init__(self, filename):
         super(JSONReportGenerator, self).__init__(filename)
@@ -59,11 +60,13 @@ class JSONReportGenerator(ReportGenerator):
         sio = StringIO()
         # Float formatting
         # Make nested list for writerows
+        # TODO:
+        # Utilize spending instance IDs for better JSON formatting
         instances = [{i.__str__(): ['{0:.2f}'.format(i.amount), i.account.name, str(i.date)]} for i in instances]
         json.dump(instances, sio)
         output = make_response(sio.getvalue())
         output.headers['Content-Disposition'] = 'attachment; filename=' + self.filename + '.json'
-        output.headers['Content-type'] = 'text/csv'
+        output.headers['Content-type'] = 'application/json'
         return output
 
     __mapper_args__ = {

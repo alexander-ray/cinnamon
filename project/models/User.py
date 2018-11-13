@@ -8,7 +8,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
     income = db.Column(db.Integer)
     information = db.relationship('UserInformation', uselist=False)
     accounts = db.relationship('Account')
@@ -16,13 +16,13 @@ class User(db.Model):
     report_generator = db.relationship('ReportGenerator', uselist=False, enable_typechecks=True)
 
     def __init__(self, username, password, info):
-        self.id = 22
         self.username = username
         self.password = password
         self.information = info
         self.accounts = []
         self.spending_history = SpendingHistory()
-        self.report_generator = JSONReportGenerator(filename='export')
+        # Default to CSV, don't ask user when they first sign up
+        self.report_generator = CSVReportGenerator(filename='export')
 
     def get_account(self, name):
         for account in self.accounts:

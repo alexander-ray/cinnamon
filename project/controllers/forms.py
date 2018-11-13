@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, IntegerField, SelectField, DateField
+from wtforms import StringField, PasswordField, IntegerField, SelectField, DateField, DecimalField
 from wtforms.validators import Length, InputRequired, NumberRange
 from datetime import datetime
 
@@ -48,10 +48,15 @@ class SettingsForm(BaseAddressForm):
         'Income',
         validators=[InputRequired(), NumberRange(min=0, max=100000000)]
     )
+    report_type = SelectField(
+        'Report Type',
+        coerce=str,
+        validators=[InputRequired()]
+    )
 
 
 class LogSpendingForm(Form):
-    amount = IntegerField(
+    amount = DecimalField(
         'Amount',
         validators=[InputRequired(), NumberRange(min=0, max=100000000)]
     )

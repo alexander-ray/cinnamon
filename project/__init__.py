@@ -31,8 +31,6 @@ import project.models
 db.create_all()
 from project.models.User import User
 
-# Work with SQLAlchemy to get actual persistence going
-user = User('billy', 'bob', None)
 
 @login.user_loader
 def load_user(id):
