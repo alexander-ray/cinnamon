@@ -1,7 +1,8 @@
 from project import db
+from flask import make_response
 from io import StringIO
 import csv
-from flask import make_response
+import json
 
 
 class ReportGenerator(db.Model):
@@ -46,4 +47,25 @@ class CSVReportGenerator(ReportGenerator):
 
     __mapper_args__ = {
         'polymorphic_identity': 'csv_report_generator',
+    }
+
+class JSONReportGenerator(ReportGenerator):
+    def __init__(self, filename):
+        super(JSONReportGenerator, self).__init__(filename)
+
+    def generate_report(self, instances):
+        # Code for generating json
+        # https://stackoverflow.com/questions/51981089/
+        sio = StringIO()
+        # Float formatting
+        # Make nested list for writerows
+        instances = [{i.__str__(): ['{0:.2f}'.format(i.amount), i.account.name, str(i.date)]} for i in instances]
+        json.dump(instances, sio)
+        output = make_response(sio.getvalue())
+        output.headers['Content-Disposition'] = 'attachment; filename=' + self.filename + '.json'
+        output.headers['Content-type'] = 'text/csv'
+        return output
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'json_report_generator',
     }

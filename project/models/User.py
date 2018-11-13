@@ -1,6 +1,6 @@
 from project import db
 from .SpendingHistory import SpendingHistory
-from .ReportGenerator import CSVReportGenerator
+from .ReportGenerator import CSVReportGenerator, JSONReportGenerator
 
 
 class User(db.Model):
@@ -22,7 +22,7 @@ class User(db.Model):
         self.information = info
         self.accounts = []
         self.spending_history = SpendingHistory()
-        self.report_generator = CSVReportGenerator(filename='export')
+        self.report_generator = JSONReportGenerator(filename='export')
 
     def get_account(self, name):
         for account in self.accounts:

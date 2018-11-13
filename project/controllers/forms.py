@@ -85,5 +85,7 @@ class AddAccountForm(Form):
 
 
 class CreateReportForm(Form):
-    pass
-
+    filename = StringField(
+        'Filename',
+        validators=[Length(max=200)]
+    )
