@@ -1,5 +1,6 @@
 from project import db
 from .SpendingHistory import SpendingHistory
+from .ReportGenerator import CSVReportGenerator
 
 
 class User(db.Model):
@@ -12,6 +13,7 @@ class User(db.Model):
     information = db.relationship('UserInformation', uselist=False)
     accounts = db.relationship('Account')
     spending_history = db.relationship('SpendingHistory', uselist=False, enable_typechecks=True)
+    report_generator = db.relationship('ReportGenerator', uselist=False, enable_typechecks=True)
 
     def __init__(self, username, password, info):
         self.id = 22
@@ -20,6 +22,7 @@ class User(db.Model):
         self.information = info
         self.accounts = []
         self.spending_history = SpendingHistory()
+        self.report_generator = CSVReportGenerator(filename='export')
 
     def get_account(self, name):
         for account in self.accounts:

@@ -1,10 +1,8 @@
 from project import app
 from project.controllers.forms import CreateReportForm
-from flask import render_template, redirect, request, make_response
+from flask import render_template, request
 from flask_login import login_required, current_user
 from flask.views import View
-from io import StringIO
-import csv
 
 
 class CreateReportController(View):
@@ -15,19 +13,7 @@ class CreateReportController(View):
         # display form
         form = CreateReportForm(request.form)
         if request.method == 'POST' and form.validate_on_submit():
-            # Code for generating csv
-            # https://stackoverflow.com/questions/11914472/
-            # https://stackoverflow.com/questions/26997679/
-            sio = StringIO()
-            writer = csv.writer(sio)
-            instances = current_user.spending_history.get_spending_instances()
-            # Float formatting
-            # Make nested list for writerows
-            instances = [[i.__str__(), '{0:.2f}'.format(i.amount), i.account.name, i.date] for i in instances]
-            writer.writerows(instances)
-            output = make_response(sio.getvalue())
-            output.headers["Content-Disposition"] = "attachment; filename=export.csv"
-            output.headers["Content-type"] = "text/csv"
+            output = current_user.report_generator.generate_report(current_user.spending_history.get_spending_instances())
             return output
         return render_template('create_report.html',
                                form=form)
