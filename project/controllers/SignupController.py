@@ -13,6 +13,8 @@ class SignupController(View):
 
     def dispatch_request(self):
         form = SignupForm(request.form)
+        # TODO:
+        # Hash passwords, security????
         if request.method == 'POST' and form.validate_on_submit():
             info = UserInformation(int(form.income.data),
                                    Address(form.street_address.data,

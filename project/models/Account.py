@@ -1,6 +1,7 @@
 from project import db
 
-
+# TODO:
+# Implement decorator to dynamically add functionality to accounts
 class Account(db.Model):
     __tablename__ = 'account'
     id = db.Column(db.Integer, primary_key=True)
