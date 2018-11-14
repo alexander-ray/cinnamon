@@ -2,7 +2,8 @@ from project import db
 from .SpendingHistory import SpendingHistory
 from .ReportGenerator import CSVReportGenerator, JSONReportGenerator
 
-
+# TODO:
+# Add docstrings
 class User(db.Model):
     __tablename__ = 'user'
 

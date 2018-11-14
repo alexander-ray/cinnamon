@@ -20,9 +20,6 @@ class SpendingController(View):
         # Add account choices to form
         form.account.choices = [(name, name) for name in current_user.get_account_names()]
 
-        # TODO:
-        # Do something cooler with account balances, etc
-        # Add spending type choices to form
         form.spending_type.choices = [(name.value, name.value) for name in SpendingType]
         if request.method == 'POST' and form.validate_on_submit():
             amount = float(request.form['amount'])
