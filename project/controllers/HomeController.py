@@ -8,8 +8,15 @@ class HomeController(View):
     decorators = [login_required]
 
     def dispatch_request(self):
-        instances = current_user.spending_history.get_spending_instances()
-        return render_template('home.html', instances=instances)
+        """
+        Handler for requests to homepage. Retrieves data from model and passes to view
+
+        :return: Template
+        """
+        summary = current_user.summary_generator.summary_template_method()
+        accounts = current_user.accounts
+        instances = current_user.spending_history.spending_instances
+        return render_template('home.html', summary=summary, accounts=accounts, instances=instances)
 
 
 app.add_url_rule('/home', view_func=HomeController.as_view('home'))

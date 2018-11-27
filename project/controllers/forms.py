@@ -1,13 +1,14 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, IntegerField, SelectField, DateField, DecimalField
-from wtforms.validators import Length, InputRequired, NumberRange
+from wtforms import StringField, PasswordField, IntegerField, SelectField, DateField, DecimalField, BooleanField
+from wtforms.fields.html5 import EmailField
+from wtforms.validators import Length, InputRequired, NumberRange, Email
 from datetime import datetime
 
 
 class BaseUserForm(Form):
-    username = StringField(
-        'Username',
-        validators=[InputRequired(), Length(max=255)]
+    email = EmailField(
+        'Email',
+        validators=[]
     )
     password = PasswordField(
         'Password',
@@ -24,8 +25,9 @@ class BaseAddressForm(Form):
         'City',
         validators=[InputRequired()]
     )
-    state = StringField(
+    state = SelectField(
         'State',
+        coerce=str,
         validators=[InputRequired()]
     )
     zip = StringField(
@@ -50,6 +52,11 @@ class SettingsForm(BaseAddressForm):
     )
     report_type = SelectField(
         'Report Type',
+        coerce=str,
+        validators=[InputRequired()]
+    )
+    summary_type = SelectField(
+        'Summary Type',
         coerce=str,
         validators=[InputRequired()]
     )
@@ -87,10 +94,19 @@ class AddAccountForm(Form):
         'Account',
         validators=[InputRequired(), Length(max=255)]
     )
+    include_email = BooleanField(
+        'Email Updates'
+    )
+    include_savings = BooleanField(
+        'Save by Rounding'
+    )
 
 
 class CreateReportForm(Form):
     filename = StringField(
         'Filename',
         validators=[Length(max=200)]
+    )
+    include_description = BooleanField(
+        'Include Description'
     )

@@ -2,6 +2,31 @@
 {% block app_content %}
     <html>
         <h1>
+            Where you stand
+        </h1>
+        <!--https://stackoverflow.com/questions/3206344/-->
+        {{ summary|safe }}
+        <h1>
+            Account Summaries
+        </h1>
+        <!--https://getbootstrap.com/docs/4.0/content/tables/-->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Account Name</th>
+                    <th scope="col">Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account in accounts %}
+                <tr>
+                    <td>{{ account.name }}</td>
+                    <td>{{ account.__str__() }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h1>
             Spending History
         </h1>
         <!--https://getbootstrap.com/docs/4.0/content/tables/-->

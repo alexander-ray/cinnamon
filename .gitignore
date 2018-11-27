@@ -2,6 +2,8 @@
 Other/
 .idea/
 *.db
+config.txt
+/docs
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

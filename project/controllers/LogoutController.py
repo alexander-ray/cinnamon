@@ -8,6 +8,11 @@ class LogoutController(View):
     methods = ['GET', 'POST']
 
     def dispatch_request(self):
+        """
+        Handler for logout
+
+        :return: Redirect to login page
+        """
         logout_user()
         return redirect('login')
 

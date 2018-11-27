@@ -1,33 +1,87 @@
 from project import db
 from project.models.SpendingType import SpendingType
 import datetime
-
+from sqlalchemy.ext.hybrid import hybrid_property
+from abc import abstractmethod, ABCMeta
 
 class SpendingInstance(db.Model):
     # Only superclass gets tablename
     __tablename__ = 'spending_instance'
+    __metaclass__ = ABCMeta
 
-    id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.Integer, nullable=False)
-    account = db.relationship('Account', uselist=False)
-    date = db.Column(db.Date, default=datetime.datetime.now())
-    description = db.Column(db.String(80))
+    _id = db.Column(db.Integer, primary_key=True)
+    _amount = db.Column(db.Integer, nullable=False)
+    _account = db.relationship('BaseAccount', uselist=False)
+    _date = db.Column(db.Date, default=datetime.datetime.now())
+    _description = db.Column(db.String(80))
     # Field for distinguishing between subclasses
-    type = db.Column(db.String(80))
-    spending_history_id = db.Column(db.Integer, db.ForeignKey('spending_history.id'))
-    account_id = db.Column(db.Integer, db.ForeignKey('account.id'))
+    _type = db.Column(db.String(80))
+    _spending_history_id = db.Column(db.Integer, db.ForeignKey('spending_history._id'))
+    _account_id = db.Column(db.Integer, db.ForeignKey('base_account._id'))
 
     def __init__(self, amount, account, date, description):
-        self.amount = amount
-        self.account = account
-        self.date = date
-        self.description = description
+        self._amount = amount
+        self._account = account
+        self._date = date
+        self._description = description
+
+    @hybrid_property
+    def id(self):
+        """
+        Getter for id
+
+        :return: Id
+        """
+        return self._id
+
+    @hybrid_property
+    def amount(self):
+        """
+        Getter for spending instance amount
+
+        :return: Amount
+        """
+        return self._amount
+
+    @hybrid_property
+    def date(self):
+        """
+        Getter for spending instance date
+
+        :return: Date
+        """
+        return self._date
+
+    @hybrid_property
+    def account(self):
+        """
+        Getter for account associated with spending instance
+
+        :return: Account
+        """
+        return self._account
+
+    @hybrid_property
+    def description(self):
+        """
+        Getter for description associated with spending instance
+
+        :return: Description
+        """
+        return self._description
+
+    @abstractmethod
+    def __str__(self):
+        """
+        Abstract string method to ensure subclasses write implementations
+        """
+        pass
 
     # Setup for single table polymorphic stuff in sqlalchemy
     # https://docs.sqlalchemy.org/en/latest/orm/inheritance.html
     __mapper_args__ = {
         'polymorphic_identity': 'spending_instance',
-        'polymorphic_on': type
+        'polymorphic_on': _type
     }
 
 
@@ -37,7 +91,7 @@ class DiningSpendingInstance(SpendingInstance):
                                                      account,
                                                      date,
                                                      description)
-        self.amount += self.amount * 0.15
+        self._amount += self._amount * 0.15
 
     def __str__(self):
         return SpendingType.DINING.value

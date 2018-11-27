@@ -11,13 +11,23 @@ class CreateReportController(View):
     decorators = [login_required]
 
     def dispatch_request(self):
-        # display form
+        """
+        Handler for create report. Takes filename data from form and generates report with user's current report
+        generator
+
+        :return: Template
+        """
         form = CreateReportForm(request.form,
-                                filename=current_user.report_generator.filename)
+                                filename=current_user.report_generator.default_filename)
 
         if request.method == 'POST' and form.validate_on_submit():
-            current_user.report_generator.filename = str(form.filename.data)
-            output = current_user.report_generator.generate_report(current_user.spending_history.get_spending_instances())
+            current_user.report_generator.default_filename = str(form.filename.data)
+            include_description = False
+            if request.form.get('include_description'):
+                include_description = True
+
+            spending_instances = current_user.spending_history.spending_instances
+            output = current_user.report_generator.generate_report(spending_instances, include_description)
             db.session.commit()
             return output
         return render_template('create_report.html',

@@ -15,25 +15,34 @@ class SpendingController(View):
 
     def dispatch_request(self):
         # Create basic logging form
+        """
+        Handler for adding spending instances. Populates default fields and drop down menus. Withdraws amount from
+        specified account, creates a new spending instance.
+
+        :return: Template
+        """
         form = LogSpendingForm(request.form)
 
         # Add account choices to form
-        form.account.choices = [(name, name) for name in current_user.get_account_names()]
+        form.account.choices = [(name, name) for name in current_user.account_names]
 
         form.spending_type.choices = [(name.value, name.value) for name in SpendingType]
         if request.method == 'POST' and form.validate_on_submit():
             amount = float(request.form['amount'])
-            account = request.form['account']
+            account_name = request.form['account']
             # Convert to date (not datetime)
             date = datetime.strptime(request.form['date'], '%Y-%m-%d').date()
             description = request.form['description']
             instance_type = request.form['spending_type']
+            account = current_user.get_account(account_name)
             spending_instance = SpendingInstanceFactory.factory_method(amount,
-                                                                       current_user.get_account(account),
+                                                                       account,
                                                                        date,
                                                                        description,
                                                                        instance_type)
-            current_user.get_account(account).withdraw(amount)
+            account.withdraw(spending_instance.amount)
+
+
             current_user.spending_history.add_spending_instance(spending_instance)
             db.session.commit()
             return redirect('home')
