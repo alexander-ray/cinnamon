@@ -159,8 +159,8 @@ class AccountSavingsDecorator(BaseAccountDecorator):
         Withdraw method for savings decorator. Calls other withdraw methods, adds to savings (rounded up to nearest
         dollar), and returns current sum of withdrawals.
 
-        :param amount:
-        :return:
+        :param amount: Amount of money to withdraw
+        :return: Current total expenditure. Needed for decorator design pattern due to SQLAlchemy constraints
         """
         self._expenditure = self._decorator.withdraw(amount)
         self._sum_savings += math.ceil(amount) - amount
