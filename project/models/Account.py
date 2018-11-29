@@ -14,9 +14,8 @@ from flask_login import current_user
 
 
 class BaseAccount(db.Model):
-    __metaclass__ = ABCMeta
-
     __tablename__ = 'base_account'
+    __metaclass__ = ABCMeta
 
     _id = db.Column(db.Integer, primary_key=True)
     _name = db.Column(db.String(80), nullable=False)
@@ -101,7 +100,19 @@ class BaseAccountDecorator(BaseAccount):
         self._name = self._decorator.name
 
     @abstractmethod
+    def withdraw(self, amount):
+        """
+        Abstract withdraw method, to be implemented by subclasses
+
+        :param amount: Amount to withdraw
+        """
+        pass
+
+    @abstractmethod
     def __str__(self):
+        """
+        Abstract string method to ensure subclasses write implementations
+        """
         pass
 
     __mapper_args__ = {

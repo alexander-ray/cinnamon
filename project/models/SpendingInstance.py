@@ -4,9 +4,11 @@ import datetime
 from sqlalchemy.ext.hybrid import hybrid_property
 from abc import abstractmethod, ABCMeta
 
+
 class SpendingInstance(db.Model):
     # Only superclass gets tablename
     __tablename__ = 'spending_instance'
+    # Make abstract
     __metaclass__ = ABCMeta
 
     _id = db.Column(db.Integer, primary_key=True)

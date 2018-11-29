@@ -1,12 +1,12 @@
 from project import app
 from project.controllers.forms import LogSpendingForm
 from project.models.SpendingInstanceFactory import SpendingInstanceFactory
-from project.models.SpendingType import SpendingType
 from flask import render_template, redirect, request
 from flask_login import login_required, current_user
 from flask.views import View
 from project import db
 from datetime import datetime
+from project.models.SpendingType import SpendingType
 
 
 class SpendingController(View):
@@ -35,14 +35,13 @@ class SpendingController(View):
             description = request.form['description']
             instance_type = request.form['spending_type']
             account = current_user.get_account(account_name)
+
             spending_instance = SpendingInstanceFactory.factory_method(amount,
                                                                        account,
                                                                        date,
                                                                        description,
                                                                        instance_type)
             account.withdraw(spending_instance.amount)
-
-
             current_user.spending_history.add_spending_instance(spending_instance)
             db.session.commit()
             return redirect('home')

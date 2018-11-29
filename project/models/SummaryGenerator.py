@@ -6,7 +6,6 @@ import datetime
 
 class SummaryGenerator(db.Model):
     __metaclass__ = ABCMeta
-
     __tablename__ = 'summary_generator'
 
     _id = db.Column(db.Integer, primary_key=True)
